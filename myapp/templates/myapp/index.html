@@ -1,0 +1,61 @@
+{% extends 'myapp/base.html' %} {% block content %}
+<!-- Start your project here-->
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h2 class="display-4">PHOTO CLASSIFY</h2>
+    <p class="lead">AIでジャンル分けする写真投稿サイト</p>
+  </div>
+</div>
+
+<div class="row">
+
+  <!-- Card deck -->
+  <div class="card-deck">
+    {% for item in post_list %}
+    <div class="col-md-4">
+      <!-- Card -->
+      <div class="card mb-4">
+        <!-- Card image -->
+        <div class="view overlay">
+          {% if item.thumbnail %}
+          <img
+            class="card-img-top"
+            src="{{ item.thumbnail.url }}"
+            alt="{{item.title}}"
+          />
+          {% else %}
+          <img
+            class="card-img-top"
+            src="https://mdbootstrap.com/img/new/standard/city/041.jpg"
+            alt="{{item.title}}"
+          />
+          {% endif %}
+          <a href="{% url 'myapp:post_detail' item.id %}">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h4 class="card-title">
+            {{ item.title }}
+          </h4>
+          <p style="margin:-10px 0px;"><small>Author : {{ item.author }}</small></p>
+          <p><small>Category : {{ item.category }}</small></p>
+          <p class="card-text">
+            {{ item.content | safe | truncatechars_html:30 }}
+          </p>
+          <a
+            href="{% url 'myapp:post_detail' item.id %}"
+            type="button"
+            class="btn btn-light-blue btn-md"
+          >
+            もっと読む
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
